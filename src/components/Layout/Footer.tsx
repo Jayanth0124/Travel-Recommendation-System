@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <div className="text-sm text-gray-600 text-center sm:text-left">
-            <p>&copy; {currentYear} TravelAI. All Rights Reserved.</p>
+            <p>&copy; {currentYear} Triply. All Rights Reserved.</p>
             <p>
               Designed by{' '}
               <a
