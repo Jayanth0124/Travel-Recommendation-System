@@ -35,6 +35,56 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
     });
   }, [recommendations, sortBy, filterMinScore]);
 
+  const handleShare = async () => {
+    const shareData = {
+      title: 'My Triply Travel Recommendations',
+      text: 'Check out the personalized travel destinations Triply recommended for me!',
+      url: window.location.href,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback for browsers that do not support the Web Share API
+        navigator.clipboard.writeText(shareData.url);
+        alert('Link copied to clipboard!');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      // Fallback in case of error
+      navigator.clipboard.writeText(shareData.url);
+      alert('Link copied to clipboard!');
+    }
+  };
+
+  const handleExport = () => {
+    const headers = [
+      "Rank", "Destination", "Country", "Final Score", "Preference Match", 
+      "Demographic Match", "Match Reasons", "Description"
+    ];
+    
+    const rows = sortedAndFiltered.map((rec, index) => [
+      index + 1,
+      rec.destination.name,
+      rec.destination.country,
+      rec.finalScore,
+      rec.preferenceMatch,
+      rec.demographicMatch,
+      `"${rec.matchReasons.join(', ')}"`,
+      `"${rec.destination.description}"`
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csvContent));
+    link.setAttribute("download", "triply_recommendations.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
@@ -56,11 +106,15 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
           </div>
 
           <div className="flex gap-3 self-end md:self-auto">
-            <button className="flex items-center px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+            <button 
+              onClick={handleShare}
+              className="flex items-center px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
               <Share2 className="w-4 h-4 mr-2" />
               Share
             </button>
-            <button className="flex items-center px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
+            <button 
+              onClick={handleExport}
+              className="flex items-center px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all">
               <Download className="w-4 h-4 mr-2" />
               Export
             </button>
