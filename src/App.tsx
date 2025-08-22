@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './components/Layout/Header';
+import { Footer } from './components/Layout/Footer'; // Import the new Footer component
 import { WelcomeScreen } from './components/Welcome/WelcomeScreen';
 import { SurveyStep } from './components/Survey/SurveyStep';
 import { ProfileSummary } from './components/Survey/ProfileSummary';
@@ -120,47 +121,49 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
-      
-      {currentState === 'welcome' && (
-        <WelcomeScreen onStart={handleStartSurvey} />
-      )}
+      <main className="flex-grow">
+        {currentState === 'welcome' && (
+          <WelcomeScreen onStart={handleStartSurvey} />
+        )}
 
-      {currentState === 'survey' && (
-        <div className="container mx-auto px-4 py-12">
-          <SurveyStep
-            title={surveyQuestions[currentStep].title}
-            questions={surveyQuestions[currentStep].questions}
-            answers={surveyAnswers}
-            onAnswerChange={handleAnswerChange}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            isFirst={currentStep === 0}
-            isLast={currentStep === surveyQuestions.length - 1}
-            canProceed={canProceedFromStep(currentStep)}
-          />
-        </div>
-      )}
+        {currentState === 'survey' && (
+          <div className="container mx-auto px-4 py-12">
+            <SurveyStep
+              title={surveyQuestions[currentStep].title}
+              questions={surveyQuestions[currentStep].questions}
+              answers={surveyAnswers}
+              onAnswerChange={handleAnswerChange}
+              onNext={handleNext}
+              onPrev={handlePrev}
+              isFirst={currentStep === 0}
+              isLast={currentStep === surveyQuestions.length - 1}
+              canProceed={canProceedFromStep(currentStep)}
+            />
+          </div>
+        )}
 
-      {currentState === 'profile-summary' && userProfile && (
-        <div className="container mx-auto px-4 py-12">
-          <ProfileSummary
+        {currentState === 'profile-summary' && userProfile && (
+          <div className="container mx-auto px-4 py-12">
+            <ProfileSummary
+              profile={userProfile}
+              onEdit={handleEditProfile}
+              onConfirm={handleGenerateRecommendations}
+            />
+          </div>
+        )}
+
+        {currentState === 'results' && userProfile && recommendations.length > 0 && metrics && (
+          <ResultsView
             profile={userProfile}
-            onEdit={handleEditProfile}
-            onConfirm={handleGenerateRecommendations}
+            recommendations={recommendations}
+            metrics={metrics}
+            onBack={handleBackToWelcome}
           />
-        </div>
-      )}
-
-      {currentState === 'results' && userProfile && recommendations.length > 0 && metrics && (
-        <ResultsView
-          profile={userProfile}
-          recommendations={recommendations}
-          metrics={metrics}
-          onBack={handleBackToWelcome}
-        />
-      )}
+        )}
+      </main>
+      <Footer />
     </div>
   );
 }
