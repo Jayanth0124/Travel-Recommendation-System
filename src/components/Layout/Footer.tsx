@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -25,16 +25,16 @@ export const Footer: React.FC = () => {
 
           <div className="flex items-center gap-4 mt-4 sm:mt-0">
             <a
-              href="https://twitter.com"
+              href="https://instagram.com/jayanth.chowdary__"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Twitter"
+              aria-label="Instagram"
               className="text-gray-500 hover:text-blue-500 transition-colors"
             >
-              <Twitter className="w-5 h-5" />
+              <Instagram className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/in/jayanth-donavalli"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
               <Linkedin className="w-5 h-5" />
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/Jayanth0124"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
