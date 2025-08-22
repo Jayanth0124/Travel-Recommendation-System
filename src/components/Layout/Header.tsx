@@ -3,7 +3,7 @@ import { Compass } from 'lucide-react';
 
 export const Header: React.FC = () => {
   return (
-    <header className="bg-white shadow-sm border-b border-gray-100">
+    <header className="relative z-30 bg-white shadow-sm border-b border-gray-100">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
